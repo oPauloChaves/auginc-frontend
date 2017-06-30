@@ -3,6 +3,9 @@ import jwtDecode from 'jwt-decode';
 
 export const TOKEN_KEY = 'jwt_token';
 export const USER_KEY = 'user';
+export const ADMIN = 'ADMIN';
+export const MANAGER = 'MANAGER';
+export const USER = 'USER';
 
 export default (type, params) => {
   if (type === AUTH_LOGIN) {
@@ -37,3 +40,19 @@ export default (type, params) => {
   }
   return Promise.reject('Unkown method');
 };
+
+export const authUser = () => {
+  return JSON.parse(localStorage.getItem(USER_KEY));
+}
+
+export const isAdminUser = () => {
+  const user = authUser();
+
+  if (!user || !user.roles) return false;
+
+  for (let role of user.roles) {
+    if (role === ADMIN) return true;
+  }
+
+  return false;
+}

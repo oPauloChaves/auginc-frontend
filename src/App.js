@@ -3,7 +3,6 @@ import { Admin, Resource, fetchUtils } from 'admin-on-rest';
 
 import restClient from './rest/client';
 import authClient, { TOKEN_KEY } from './rest/auth';
-
 import { EmployeeList } from './employees';
 
 const httpClient = (url, options = {}) => {

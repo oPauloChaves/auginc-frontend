@@ -1,21 +1,29 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Admin, Resource, fetchUtils } from 'admin-on-rest';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
+import restClient from './rest/client';
+import authClient, { TOKEN_KEY } from './rest/auth';
+
+import { EmployeeList } from './employees';
+
+const httpClient = (url, options = {}) => {
+  if (!options.headers) {
+    options.headers = new Headers({ Accept: 'application/json' });
   }
+  const token = localStorage.getItem(TOKEN_KEY);
+  options.headers.set('Authorization', token);
+  return fetchUtils.fetchJson(url, options);
 }
+const apiRestClient = restClient("http://localhost:8080/api", httpClient);
+
+const App = () => (
+  <Admin
+    title="Auginc"
+    restClient={apiRestClient}
+    authClient={authClient}
+  >
+    <Resource name="employees" list={EmployeeList} />
+  </Admin>
+);
 
 export default App;

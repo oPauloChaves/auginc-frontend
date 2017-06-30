@@ -1,9 +1,14 @@
 import React from 'react';
-import { Admin, Resource, fetchUtils } from 'admin-on-rest';
+import { Admin, fetchUtils, Resource } from 'admin-on-rest';
 
 import restClient from './rest/client';
 import authClient, { TOKEN_KEY } from './rest/auth';
-import { EmployeeList } from './employees';
+import translations from './i18n';
+import Menu from './Menu';
+
+import Dashboard from './Dashboard';
+import { EmployeeList, EmployeeEdit } from './employees';
+import { BrandList } from './brands';
 
 const httpClient = (url, options = {}) => {
   if (!options.headers) {
@@ -20,8 +25,12 @@ const App = () => (
     title="Auginc"
     restClient={apiRestClient}
     authClient={authClient}
+    dashboard={Dashboard}
+    menu={Menu}
+    messages={translations}
   >
-    <Resource name="employees" list={EmployeeList} />
+    <Resource name="employees" list={EmployeeList} edit={EmployeeEdit} />
+    <Resource name="brands" list={BrandList} />
   </Admin>
 );
 

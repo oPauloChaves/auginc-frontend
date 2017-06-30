@@ -7,6 +7,13 @@ export const ADMIN = 'ADMIN';
 export const MANAGER = 'MANAGER';
 export const USER = 'USER';
 
+function parseToken(token) {
+  const user = jwtDecode(token);
+  user.role = user.roles[0];
+  user.isAdmin = user.role === ADMIN;
+  return user;
+}
+
 export default (type, params) => {
   if (type === AUTH_LOGIN) {
     const { username, password } = params;
@@ -24,7 +31,8 @@ export default (type, params) => {
       })
       .then(({ token }) => {
         localStorage.setItem(TOKEN_KEY, token);
-        localStorage.setItem(USER_KEY, JSON.stringify(jwtDecode(token)));
+        const user = parseToken(token);
+        localStorage.setItem(USER_KEY, JSON.stringify(user));
       });
   }
   if (type === AUTH_LOGOUT) {
@@ -41,18 +49,3 @@ export default (type, params) => {
   return Promise.reject('Unkown method');
 };
 
-export const authUser = () => {
-  return JSON.parse(localStorage.getItem(USER_KEY));
-}
-
-export const isAdminUser = () => {
-  const user = authUser();
-
-  if (!user || !user.roles) return false;
-
-  for (let role of user.roles) {
-    if (role === ADMIN) return true;
-  }
-
-  return false;
-}

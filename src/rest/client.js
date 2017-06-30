@@ -2,11 +2,25 @@ import { queryParameters, fetchJson } from 'admin-on-rest/lib/util/fetch';
 import {
   GET_LIST,
   GET_ONE,
+  GET_MANY,
   GET_MANY_REFERENCE,
   CREATE,
   UPDATE,
   DELETE,
 } from 'admin-on-rest/lib/rest/types';
+
+import { USER_KEY } from './auth';
+
+function getPath(type, resource) {
+  const user = JSON.parse(localStorage.getItem(USER_KEY));
+
+  if (resource === 'brands' || resource === 'customers') {
+    if (!user.isAdmin) {
+      return `employees/${user.userid}/${resource}`;
+    }
+  }
+  return resource;
+}
 
 /**
  * Maps admin-on-rest queries to a powered REST API
@@ -28,6 +42,7 @@ export default (apiUrl, httpClient = fetchJson) => {
    */
   const convertRESTRequestToHTTP = (type, resource, params) => {
     let url = '';
+    const resourcePath = getPath(type, resource);
     const options = {};
     switch (type) {
       case GET_LIST: {
@@ -39,11 +54,15 @@ export default (apiUrl, httpClient = fetchJson) => {
           page: page - 1,
           size: perPage
         };
-        url = `${apiUrl}/${resource}?${queryParameters(query)}`;
+        url = `${apiUrl}/${resourcePath}?${queryParameters(query)}`;
         break;
       }
       case GET_ONE:
-        url = `${apiUrl}/${resource}/${params.id}`;
+        url = `${apiUrl}/${resourcePath}/${params.id}`;
+        break;
+      case GET_MANY:
+        const ids = params.ids.join(',');
+        url = `${apiUrl}/${resourcePath}/list?ids=${ids}`;
         break;
       case GET_MANY_REFERENCE: {
         // TODO : use a list of ids
@@ -56,21 +75,21 @@ export default (apiUrl, httpClient = fetchJson) => {
           page: page - 1,
           size: perPage
         };
-        url = `${apiUrl}/${resource}?${queryParameters(query)}`;
+        url = `${apiUrl}/${resourcePath}?${queryParameters(query)}`;
         break;
       }
       case UPDATE:
-        url = `${apiUrl}/${resource}/${params.id}`;
+        url = `${apiUrl}/${resourcePath}/${params.id}`;
         options.method = 'PUT';
         options.body = JSON.stringify(params.data);
         break;
       case CREATE:
-        url = `${apiUrl}/${resource}`;
+        url = `${apiUrl}/${resourcePath}`;
         options.method = 'POST';
         options.body = JSON.stringify(params.data);
         break;
       case DELETE:
-        url = `${apiUrl}/${resource}/${params.id}`;
+        url = `${apiUrl}/${resourcePath}/${params.id}`;
         options.method = 'DELETE';
         break;
       default:
@@ -88,6 +107,7 @@ export default (apiUrl, httpClient = fetchJson) => {
    */
   const convertHTTPResponseToREST = (response, type, resource, params) => {
     const { json } = response;
+
     switch (type) {
       case GET_LIST:
         if (!json.totalElements) {
@@ -116,11 +136,6 @@ export default (apiUrl, httpClient = fetchJson) => {
    * @returns {Promise} the Promise for a REST response
    */
   return (type, resource, params) => {
-    // json-server doesn't handle WHERE IN requests, so we fallback to calling GET_ONE n times instead
-    // if (type === GET_MANY) {
-    //   return Promise.all(params.ids.map(id => httpClient(`${apiUrl}/${resource}/${id}`)))
-    //     .then(responses => ({ data: responses.map(response => response.json) }));
-    // }
     const { url, options } = convertRESTRequestToHTTP(type, resource, params);
     return httpClient(url, options)
       .then(response => convertHTTPResponseToREST(response, type, resource, params));

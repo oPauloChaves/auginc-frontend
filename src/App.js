@@ -28,7 +28,7 @@ const App = () => (
     authClient={authClient}
     dashboard={Dashboard}
     menu={Menu}
-    locale="pt_BR"
+    locale="pt"
     messages={translations}
   >
     <Resource name="employees" list={EmployeeList} edit={EmployeeEdit} />

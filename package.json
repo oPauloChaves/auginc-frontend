@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "admin-on-rest": "^1.1.2",
+    "aor-language-portugues": "^1.0.2",
     "jwt-decode": "^2.2.0",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",

@@ -56,7 +56,7 @@ const Menu = ({ onMenuTap, translate, logout }) => (
 const enhance = compose(
     connect(state => ({
         theme: 'Light',
-        locale: 'pt_BR',
+        locale: 'pt',
     })),
     translate,
 );

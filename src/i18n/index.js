@@ -1,9 +1,10 @@
 import { englishMessages } from 'admin-on-rest';
+import portuguesMessages from 'aor-language-portugues';
 
-import ptBRMessages from './pt_BR';
-import enMessages from './en';
+import ptCustomMessages from './pt';
+import enCustomMessages from './en';
 
 export default {
-  pt_BR: { ...ptBRMessages },
-  en: { ...englishMessages, ...enMessages },
+  pt: { ...portuguesMessages, ...ptCustomMessages },
+  en: { ...englishMessages, ...enCustomMessages },
 };

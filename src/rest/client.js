@@ -110,12 +110,9 @@ export default (apiUrl, httpClient = fetchJson) => {
 
     switch (type) {
       case GET_LIST:
-        if (!json.totalElements) {
-          throw new Error("totalElements is missing in the body response");
-        }
         return {
-          data: json.content,
-          total: json.totalElements
+          data: json.content || [],
+          total: json.totalElements || 0
         }
       case GET_MANY_REFERENCE:
         return {

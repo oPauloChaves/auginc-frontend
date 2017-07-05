@@ -8,6 +8,7 @@ import { translate, DashboardMenuItem } from 'admin-on-rest';
 
 import { EmployeeIcon } from './employees';
 import { BrandIcon } from './brands';
+import { CustomerIcon } from './customers';
 import { USER_KEY } from './rest/auth';
 
 const user = JSON.parse(localStorage.getItem(USER_KEY));
@@ -15,7 +16,8 @@ const isAdmin = user && user.isAdmin;
 
 const items = [];
 items.push(isAdmin ? {name: 'employees', icon: <EmployeeIcon />} : null);
-items.push({name: 'brands', icon: <BrandIcon />});
+items.push({ name: 'brands', icon: <BrandIcon /> });
+items.push({name: 'customers', icon: <CustomerIcon />});
 
 const styles = {
     main: {

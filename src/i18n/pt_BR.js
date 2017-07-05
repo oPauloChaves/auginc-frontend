@@ -24,6 +24,21 @@ export default {
         name: 'Nome',
         commission: 'Comissão'
       }
+    },
+    customers: {
+      name: 'Cliente |||| Clientes'
+    },
+    address: {
+      name: 'Endereço',
+      fields: {
+        street: 'Logradouro',
+        street2: 'Complemento',
+        number: 'Número',
+        zipcode: 'CEP',
+        city: 'Cidade',
+        state: 'Estado',
+        country: 'País'
+      }
     }
   }
 };

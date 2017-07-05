@@ -24,6 +24,9 @@ export default {
         name: 'Name',
         commission: 'Commission'
       }
+    },
+    customers: {
+      name: 'Customer |||| Customers'
     }
   }
 };

@@ -8,6 +8,7 @@ import Menu from './Menu';
 
 import Dashboard from './Dashboard';
 import { EmployeeList, EmployeeEdit } from './employees';
+import { CustomerList, CustomerEdit, CustomerCreate } from './customers';
 import { BrandList } from './brands';
 
 const httpClient = (url, options = {}) => {
@@ -27,10 +28,12 @@ const App = () => (
     authClient={authClient}
     dashboard={Dashboard}
     menu={Menu}
+    locale="pt_BR"
     messages={translations}
   >
     <Resource name="employees" list={EmployeeList} edit={EmployeeEdit} />
     <Resource name="brands" list={BrandList} />
+    <Resource name="customers" list={CustomerList} edit={CustomerEdit} create={CustomerCreate} />
   </Admin>
 );
 

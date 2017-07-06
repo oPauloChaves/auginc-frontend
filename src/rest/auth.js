@@ -14,10 +14,15 @@ function parseToken(token) {
   return user;
 }
 
+let LOGIN_URL = 'https://mysterious-lake-47764.herokuapp.com/auth/login';
+if (process.env.NODE_ENV !== 'production') {
+  LOGIN_URL = 'http://localhost:8080/auth/login';
+}
+
 export default (type, params) => {
   if (type === AUTH_LOGIN) {
     const { username, password } = params;
-    const request = new Request('http://localhost:8080/auth/login', {
+    const request = new Request(LOGIN_URL, {
       method: 'POST',
       body: JSON.stringify({ username, password }),
       headers: new Headers({ 'Content-Type': 'application/json' }),

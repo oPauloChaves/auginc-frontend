@@ -6,7 +6,6 @@ import {
   Create,
   Responsive,
   SimpleList,
-  SimpleForm,
   TextField,
   EmailField,
   EditButton,
@@ -14,7 +13,6 @@ import {
   TextInput,
   TabbedForm,
   FormTab,
-  ReferenceInput,
   SelectInput
 } from 'admin-on-rest';
 

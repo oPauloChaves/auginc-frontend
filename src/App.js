@@ -3,8 +3,11 @@ import { Admin, fetchUtils, Resource } from 'admin-on-rest';
 
 import restClient from './rest/client';
 import authClient, { TOKEN_KEY } from './rest/auth';
+import themeReducer from './themeReducer';
+import customRoutes from './routes';
 import translations from './i18n';
 import Menu from './Menu';
+import Layout from './Layout';
 
 import Dashboard from './Dashboard';
 import { EmployeeList, EmployeeEdit } from './employees';
@@ -33,8 +36,10 @@ const App = () => (
     restClient={apiRestClient}
     authClient={authClient}
     dashboard={Dashboard}
+    customReducers={{ theme: themeReducer }}
+    customRoutes={customRoutes}
     menu={Menu}
-    locale="pt"
+    appLayout={Layout}
     messages={translations}
   >
     <Resource name="employees" list={EmployeeList} edit={EmployeeEdit} />

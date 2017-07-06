@@ -31,8 +31,8 @@ $ yarn run build
 2. Test the build locally
 
 ```sh
-yarn global add serve
-serve -s build
+$ yarn global add serve
+$ serve -s build
 
 
    ┌────────────────────────────────────────────────┐

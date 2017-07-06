@@ -2,6 +2,7 @@
   "name": "auginc-frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://opaulochaves.github.io/auginc-frontend",
   "dependencies": {
     "admin-on-rest": "^1.1.2",
     "aor-language-portugues": "^1.0.2",
@@ -17,6 +18,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "npm run build&&gh-pages -d build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

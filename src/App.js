@@ -19,6 +19,12 @@ const httpClient = (url, options = {}) => {
   options.headers.set('Authorization', token);
   return fetchUtils.fetchJson(url, options);
 }
+
+let API_ROOT = 'https://mysterious-lake-47764.herokuapp.com/api'
+if (process.env.NODE_ENV !== 'production') {
+  API_ROOT = 'http://localhost:8080/api'
+}
+
 const apiRestClient = restClient("http://localhost:8080/api", httpClient);
 
 const App = () => (
